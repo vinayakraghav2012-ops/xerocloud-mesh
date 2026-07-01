@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XeroCloud Mesh</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TITLEBAR -->
+<div id="titlebar">
+  <div id="titlebar-left">
+    <div id="titlebar-logo">XEROCLOUD MESH</div>
+    <div id="titlebar-status" id="tb-status">● NODE ACTIVE</div>
+  </div>
+  <div id="titlebar-controls">
+    <button class="tb-btn" id="tb-min" title="Minimize">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <button class="tb-btn" id="tb-max" title="Maximize">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="1"/></svg>
+    </button>
+    <button class="tb-btn tb-close" id="tb-close" title="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-name">XERO MESH</div>
+      <div class="sidebar-brand-ver">DESKTOP CLIENT v1.0.0</div>
+    </div>
+    <div class="sidebar-node-status">
+      <div class="node-status-row">
+        <div class="node-dot"></div>
+        <div class="node-status-text">NODE OFFLINE</div>
+      </div>
+      <div class="node-id" id="sidebar-node-id">NODE_ID: XC-••••</div>
+      <button id="node-online-toggle" class="toggle-offline" style="
+        margin-top:10px;width:100%;padding:9px 12px;
+        background:rgba(15,246,246,0.08);border:1px solid rgba(15,246,246,0.3);
+        color:var(--cyan,#0FF6F6);font-family:'Electrolize',monospace,sans-serif;
+        font-size:10px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;
+        clip-path:polygon(6px 0%,100% 0%,100% calc(100% - 6px),calc(100% - 6px) 100%,0% 100%,0% 6px);
+      ">▶ PUT NODE ONLINE</button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">WORKSPACE</div>
+      <div class="nav-item active" data-view="home">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12L12 3l9 9M5 10v10h4v-6h6v6h4V10"/></svg>
+        HOME CONTROL
+      </div>
+      <div class="nav-item" data-view="wallet">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8C5.8 3 4 4.8 4 7"/><circle cx="16" cy="14" r="2"/></svg>
+        MINT WALLET
+        <span class="nav-badge">XC</span>
+      </div>
+      <div class="nav-section-label" style="margin-top:8px">SYSTEM</div>
+      <div class="nav-item" data-view="dev">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        DEVELOPER CORE
+      </div>
+      <div class="nav-item" data-view="contact">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        CONTACT PROTOCOL
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="sf-uptime" id="sf-uptime">UPTIME: 00:00:00</div>
+      <div class="sf-version">ELECTRON v28 · NODE v20 · V8 v11</div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main id="main">
+
+    <!-- ════════════ AUTH VIEW ════════════ -->
+    <div class="view active" id="view-auth" style="overflow-y:auto;display:flex;align-items:center;justify-content:center;min-height:100%">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <div class="auth-logo">XEROCLOUD MESH</div>
+          <div class="auth-sub">DECENTRALIZED COMPUTE HOST NETWORK</div>
+          <div class="auth-tabs">
+            <div class="auth-tab active" data-tab="signin">SIGN IN</div>
+            <div class="auth-tab" data-tab="register">CREATE ACCOUNT</div>
+          </div>
+        </div>
+        <div class="auth-body">
+
+          <!-- SIGN IN -->
+          <div class="auth-panel active" id="auth-signin">
+            <div class="form-group">
+              <label class="form-label">TARGET ADDRESS</label>
+              <input class="form-input" type="email" placeholder="operator@xerocloud.mesh" id="auth-email">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ACCESS CIPHER</label>
+              <div class="password-wrap">
+                <input class="form-input" type="password" placeholder="••••••••••••" id="auth-password">
+                <button class="pw-toggle" id="pw-toggle-signin">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="otp-label">VERIFICATION OTP — 6-DIGIT CIPHER KEY</div>
+              <div class="otp-grid">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+              </div>
+            </div>
+            <div id="signin-error" style="display:none;color:#ff3355;font-size:10px;letter-spacing:1px;font-family:var(--font-mono);padding:8px 0;border-left:2px solid #ff3355;padding-left:10px;margin-bottom:8px"></div><button class="btn-primary" id="btn-signin">AUTHENTICATE OPERATOR →</button>
+            <div class="auth-divider">
+              <div class="auth-divider-line"></div>
+              <div class="auth-divider-text">OR</div>
+              <div class="auth-divider-line"></div>
+            </div>
+            <button class="btn-secondary" id="btn-google">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              CONTINUE WITH GOOGLE IDENTITY
+            </button>
+          </div>
+
+          <!-- REGISTER -->
+          <div class="auth-panel" id="auth-register">
+            <div class="form-group">
+              <label class="form-label">TARGET ADDRESS</label>
+              <input class="form-input" type="email" placeholder="operator@xerocloud.mesh">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ACCESS CIPHER</label>
+              <div class="password-wrap">
+                <input class="form-input" type="password" placeholder="Create a secure cipher" id="reg-password">
+                <button class="pw-toggle" id="pw-toggle-reg">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">CONFIRM CIPHER</label>
+              <input class="form-input" type="password" placeholder="Repeat your cipher">
+            </div>
+            <div class="form-group">
+              <div class="otp-label">VERIFICATION OTP — 6-DIGIT CIPHER KEY</div>
+              <div class="otp-grid">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+                <input class="otp-cell" type="text" maxlength="1" inputmode="numeric">
+              </div>
+            </div>
+            <div id="register-error" style="display:none;color:#ff3355;font-size:10px;letter-spacing:1px;font-family:var(--font-mono);padding:8px 0;border-left:2px solid #ff3355;padding-left:10px;margin-bottom:4px"></div><div id="register-info" style="display:none;color:#0FF6F6;font-size:10px;letter-spacing:1px;font-family:var(--font-mono);padding:8px 0;border-left:2px solid #0FF6F6;padding-left:10px;margin-bottom:4px"></div><button class="btn-primary" id="btn-register">CREATE OPERATOR ACCOUNT →</button>
+            <div class="auth-divider">
+              <div class="auth-divider-line"></div>
+              <div class="auth-divider-text">OR</div>
+              <div class="auth-divider-line"></div>
+            </div>
+            <button class="btn-secondary">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              CONTINUE WITH GOOGLE IDENTITY
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ ONBOARDING VIEW ════════════ -->
+    <div class="view" id="view-onboard" style="overflow-y:auto">
+      <div class="onboard-header reveal">
+        <div class="onboard-eyebrow">WORKSPACE / PROVISIONING</div>
+        <div class="onboard-title">HOST NODE MATRIX</div>
+      </div>
+
+      <div class="pue-grid">
+        <div class="pue-card reveal">
+          <div class="pue-number">01</div>
+          <div class="pue-label">PREPARATION · TRUST LAYER</div>
+          <div class="pue-text">XeroCloud Mesh executes all client calculations inside <em>sandboxed, isolated virtual kernels</em>. Your system data remains 100% encrypted, decentralized, and under your absolute control. <em>Zero access</em> to personal storage. <em>Maximum enterprise security.</em></div>
+        </div>
+        <div class="pue-card reveal" style="transition-delay:0.1s">
+          <div class="pue-number">02</div>
+          <div class="pue-label">DREAM EFFECT · THE VISION</div>
+          <div class="pue-text">Imagine this: your machine stands idle while you rest. At night, it slips silently into the <em>global computational mesh</em>, processing rendering pipelines and AI models. You wake up on the 1st of the month to find your dashboard credited with <em>$300 (XeroCoins)</em> accrued entirely in your sleep.</div>
+        </div>
+        <div class="pue-card reveal" style="transition-delay:0.2s">
+          <div class="pue-number">03</div>
+          <div class="pue-label">URGENCY · THE PUSH</div>
+          <div class="pue-text"><em>CRITICAL:</em> Regional grid node slots are <em>heavily restricted.</em> We limit host allocation to prevent cluster saturation. Register your node infrastructure <em>now</em> before allocation queues lock permanently for your geographic zone.</div>
+        </div>
+      </div>
+
+      <div class="urgency-banner reveal">
+        <div class="urgency-icon">⚠</div>
+        <div class="urgency-text"><strong>ALLOCATION WARNING:</strong> Node slots for your region are 78% filled. An estimated <strong>23 slots remaining</strong> in your geographic cluster. Queue lock imminent — provision your compute node immediately.</div>
+      </div>
+
+      <div class="hw-config-grid reveal">
+        <div class="node-visual">
+          <div class="node-visual-inner">
+            <div class="node-svg-wrap">
+              <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="44" stroke="rgba(140,47,255,0.2)" stroke-width="1"/>
+                <circle class="node-ring" cx="50" cy="50" r="44" stroke="url(#ng)" stroke-width="1" stroke-dasharray="12 8" transform-origin="50 50"/>
+                <rect x="22" y="28" width="56" height="44" rx="3" stroke="#8c2fff" stroke-width="1.5"/>
+                <rect x="27" y="33" width="46" height="34" rx="1" fill="rgba(140,47,255,0.08)"/>
+                <rect x="32" y="38" width="36" height="3" rx="1" fill="rgba(15,246,246,0.3)"/>
+                <rect x="32" y="44" width="28" height="2" rx="1" fill="rgba(140,47,255,0.4)"/>
+                <rect x="32" y="49" width="32" height="2" rx="1" fill="rgba(15,246,246,0.2)"/>
+                <rect x="32" y="54" width="20" height="2" rx="1" fill="rgba(140,47,255,0.3)"/>
+                <circle cx="60" cy="55" r="6" stroke="#0FF6F6" stroke-width="1"/>
+                <circle cx="60" cy="55" r="3" fill="rgba(15,246,246,0.2)"/>
+                <line x1="38" y1="72" x2="62" y2="72" stroke="#0FF6F6" stroke-width="1.5"/>
+                <rect x="44" y="72" width="12" height="4" fill="rgba(15,246,246,0.15)"/>
+                <defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8c2fff"/><stop offset="1" stop-color="#0FF6F6"/></linearGradient></defs>
+              </svg>
+            </div>
+            <div class="node-label">NODE_READY</div>
+            <div class="node-sublabel">// HOST_IDLE</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-label">// HARDWARE INVENTORY CONFIGURATION</div>
+          <div class="hw-form">
+            <div class="form-group">
+              <label class="form-label">HOST DEVICE MODEL</label>
+              <input class="form-input" type="text" placeholder="e.g. Custom Build / Dell XPS 15">
+            </div>
+            <div class="form-group">
+              <label class="form-label">SYSTEM AGE (YEARS)</label>
+              <select class="form-select">
+                <option>Less than 1 year</option>
+                <option>1 year</option>
+                <option>2 years</option>
+                <option>3 years</option>
+                <option>4 years</option>
+                <option>5+ years</option>
+              </select>
+            </div>
+            <div class="form-group full-row">
+              <label class="form-label">PROCESSOR ARCHITECTURE</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="cpu-arch" value="amd"><div class="radio-opt-dot"></div><span class="radio-opt-label">AMD</span></label>
+                <label class="radio-opt"><input type="radio" name="cpu-arch" value="intel" checked><div class="radio-opt-dot"></div><span class="radio-opt-label">INTEL</span></label>
+                <label class="radio-opt"><input type="radio" name="cpu-arch" value="snapdragon"><div class="radio-opt-dot"></div><span class="radio-opt-label">SNAPDRAGON</span></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">CPU MODEL NAME</label>
+              <input class="form-input" type="text" placeholder="e.g. Core Ultra 9 290HX">
+            </div>
+            <div class="form-group">
+              <label class="form-label">PHYSICAL CORE COUNT</label>
+              <input class="form-input" type="number" placeholder="e.g. 24" min="1" max="256">
+            </div>
+            <div class="form-group">
+              <label class="form-label">SYSTEM RAM (GB)</label>
+              <select class="form-select">
+                <option>8 GB</option><option>16 GB</option><option>32 GB</option>
+                <option>64 GB</option><option>96 GB</option><option>128 GB</option>
+                <option>192 GB</option><option>256 GB+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">RAM FREQUENCY (MHz)</label>
+              <input class="form-input" type="number" placeholder="e.g. 6400">
+            </div>
+            <div class="form-group full-row">
+              <label class="form-label">RAM GENERATION</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="ram-gen" value="ddr4" checked><div class="radio-opt-dot"></div><span class="radio-opt-label">DDR4</span></label>
+                <label class="radio-opt"><input type="radio" name="ram-gen" value="ddr5"><div class="radio-opt-dot"></div><span class="radio-opt-label">DDR5</span></label>
+              </div>
+            </div>
+            <div class="form-group full-row">
+              <label class="form-label">GRAPHICS PROCESSOR BRAND</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="gpu-brand" value="nvidia" checked><div class="radio-opt-dot"></div><span class="radio-opt-label">NVIDIA</span></label>
+                <label class="radio-opt"><input type="radio" name="gpu-brand" value="amd"><div class="radio-opt-dot"></div><span class="radio-opt-label">AMD</span></label>
+                <label class="radio-opt"><input type="radio" name="gpu-brand" value="asus"><div class="radio-opt-dot"></div><span class="radio-opt-label">ASUS CUSTOM</span></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">GPU MODEL NAME</label>
+              <input class="form-input" type="text" placeholder="e.g. RTX 5090">
+            </div>
+            <div class="form-group">
+              <label class="form-label">VRAM SIZE (GB)</label>
+              <select class="form-select">
+                <option>4 GB</option><option>6 GB</option><option>8 GB</option>
+                <option>12 GB</option><option>16 GB</option><option>20 GB</option>
+                <option>24 GB</option><option>32 GB+</option>
+              </select>
+            </div>
+            <div class="form-group full-row">
+              <label class="form-label">VIDEO MEMORY GENERATION</label>
+              <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="vram-gen" value="gddr6" checked><div class="radio-opt-dot"></div><span class="radio-opt-label">GDDR6</span></label>
+                <label class="radio-opt"><input type="radio" name="vram-gen" value="hbm2"><div class="radio-opt-dot"></div><span class="radio-opt-label">HBM2</span></label>
+              </div>
+            </div>
+          </div>
+          <div class="provision-row">
+            <div id="provision-error" style="display:none;color:#ff3355;font-size:10px;letter-spacing:1px;font-family:var(--font-mono);padding:8px 0;border-left:2px solid #ff3355;padding-left:10px;margin-bottom:8px"></div><button class="btn-neon" id="btn-provision">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              PROVISION HOST COMPUTE NODE
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ HOME VIEW ════════════ -->
+    <div class="view" id="view-home" style="overflow-y:auto">
+      <div class="page-header reveal">
+        <div class="page-eyebrow">WORKSPACE / HOME CONTROL</div>
+        <div class="page-title">SYSTEM CONTROL</div>
+      </div>
+
+      <div class="ad-banner reveal">
+        <div class="ad-track-wrap">
+          <div class="ad-track" id="ad-track"></div>
+        </div>
+      </div>
+
+      <div class="scanner-card reveal">
+        <div class="scanner-header">
+          <div class="scanner-label">LIVE PERFORMANCE SCANNER</div>
+          <div class="scanner-live"><div class="scanner-live-dot"></div> REAL-TIME TELEMETRY</div>
+        </div>
+        <div class="scanner-body">
+          <div class="scanner-visual">
+            <div class="scanner-grid-bg"></div>
+            <div class="scan-laser"></div>
+            <div class="scanner-center-icon">
+              <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <circle cx="30" cy="30" r="28" stroke="rgba(140,47,255,0.3)" stroke-width="1"/>
+                <circle cx="30" cy="30" r="18" stroke="rgba(15,246,246,0.2)" stroke-width="1" stroke-dasharray="4 3"/>
+                <circle cx="30" cy="30" r="6" fill="rgba(140,47,255,0.4)"/>
+                <circle cx="30" cy="30" r="3" fill="#8c2fff"/>
+                <line x1="30" y1="2" x2="30" y2="12" stroke="rgba(15,246,246,0.4)" stroke-width="1"/>
+                <line x1="30" y1="48" x2="30" y2="58" stroke="rgba(15,246,246,0.4)" stroke-width="1"/>
+                <line x1="2" y1="30" x2="12" y2="30" stroke="rgba(15,246,246,0.4)" stroke-width="1"/>
+                <line x1="48" y1="30" x2="58" y2="30" stroke="rgba(15,246,246,0.4)" stroke-width="1"/>
+              </svg>
+            </div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-cell">
+              <div class="metric-label">CPU LOAD</div>
+              <div class="metric-value" id="m-cpu">--</div>
+              <div class="metric-bar-wrap"><div class="metric-bar" id="mb-cpu" style="width:0%"></div></div>
+              <div class="metric-sub" id="ms-cpu">IDLE</div>
+            </div>
+            <div class="metric-cell">
+              <div class="metric-label">CORE FREQUENCY</div>
+              <div class="metric-value" id="m-freq">--</div>
+              <div class="metric-bar-wrap"><div class="metric-bar" id="mb-freq" style="width:0%"></div></div>
+              <div class="metric-sub" id="ms-freq">GHz</div>
+            </div>
+            <div class="metric-cell">
+              <div class="metric-label">NETWORK SPEED</div>
+              <div class="metric-value" id="m-net">--</div>
+              <div class="metric-bar-wrap"><div class="metric-bar" id="mb-net" style="width:0%"></div></div>
+              <div class="metric-sub" id="ms-net">MB/s MESH</div>
+            </div>
+            <div class="metric-cell">
+              <div class="metric-label">MESH INTEGRITY</div>
+              <div class="metric-value" id="m-mesh">--</div>
+              <div class="metric-bar-wrap"><div class="metric-bar" id="mb-mesh" style="width:0%"></div></div>
+              <div class="metric-sub" id="ms-mesh">SYNC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="queue-header reveal">
+        <div class="queue-title">COMPUTE REQUEST QUEUE</div>
+        <div class="queue-count" id="queue-count">-- TASKS PENDING</div>
+      </div>
+      <div class="compute-queue reveal" id="compute-queue"></div>
+    </div>
+
+    <!-- ════════════ WALLET VIEW ════════════ -->
+    <div class="view" id="view-wallet" style="overflow-y:auto">
+      <div class="page-header reveal">
+        <div class="page-eyebrow">WORKSPACE / ECONOMY</div>
+        <div class="page-title">MINT WALLET</div>
+      </div>
+
+      <div class="wallet-hero reveal-l">
+        <div class="wallet-hero-grid">
+          <div>
+            <div class="wallet-balance-label">ACCRUED BALANCE</div>
+            <div class="wallet-balance" id="w-balance">0</div>
+            <div class="wallet-balance-unit">XEROCOINS</div>
+          </div>
+          <div class="wallet-conversion">
+            <div class="wc-rate">[ <span>1 XeroCoin = $2.00 USD</span> ]</div>
+            <div class="wc-usd-label">ESTIMATED USD VALUE</div>
+            <div class="wc-usd" id="w-usd">$0.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="payout-btn-row reveal">
+        <button class="payout-btn" id="payout-toggle">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+          RECEIVE PAYOUT
+        </button>
+      </div>
+      <div class="payout-drawer reveal" id="payout-drawer">
+        <div class="payout-drawer-label">EXTERNAL WALLET / PAYMENT ENDPOINT</div>
+        <div class="payout-input-row">
+          <input class="form-input" type="text" placeholder="0x... or crypto wallet address or payment endpoint" id="payout-addr">
+          <button class="payout-submit" id="payout-submit">INITIATE →</button>
+        </div>
+        <div style="margin-top:10px;font-size:9px;color:var(--text-dim);letter-spacing:1px;font-family:var(--font-mono)">Payout processes within 24–48 hours. Minimum: 50 XC. Network fee: 2%.</div>
+      </div>
+
+      <div class="ledger-table-wrap reveal">
+        <div class="ledger-table-header">
+          <div class="ledger-table-title">PAYOUT LEDGER HISTORY</div>
+          <div style="font-size:9px;color:var(--text-dim);letter-spacing:2px">ALL TRANSACTIONS SETTLED</div>
+        </div>
+        <table class="ledger-table" id="ledger-table">
+          <thead>
+            <tr>
+              <th>DATE</th>
+              <th>TASK ID</th>
+              <th>DURATION</th>
+              <th>EARNED</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="ledger-body"></tbody>
+        </table>
+      </div>
+
+      <div class="wallet-terms reveal">
+        <h4>NETWORK TRANSACTION TERMS · TAX LIABILITIES · SLASHING PROTOCOL</h4>
+        <p>XeroCoins (XC) are non-custodial digital credits issued by the XeroCloud Mesh protocol. All earnings are accrued in XC and converted to fiat at the fixed rate of 1 XC = $2.00 USD at time of payout initiation. This rate is subject to periodic review and may fluctuate for future payout cycles; balances already credited remain protected under the locked conversion index.</p>
+        <p>TAX LIABILITY: Operators are solely responsible for declaring computational income to their regional tax authorities. XeroCloud Mesh does not withhold, remit, or advise on tax obligations. Earnings may constitute self-employment income, digital asset income, or passive income depending on your jurisdiction. Consult a qualified tax professional.</p>
+        <p>SLASHING PROTOCOL: Any abrupt termination of an active compute stream — including system shutdowns, network disconnection, or manual process throttling — constitutes a protocol violation. The XeroCloud penalty engine will automatically slash (void) all accrued rewards for the interrupted session. Repeat violations may result in reduced yield rates or temporary node suspension.</p>
+        <p>PAYOUT FINALITY: Once a payout transaction is authorized, it is irreversible. Ensure your wallet address or payment endpoint is correct before initiating. XeroCloud Mesh accepts no liability for funds sent to incorrect destinations. Disputed transactions must be filed within 7 calendar days of issuance.</p>
+        <p>DECENTRALIZED LEDGER: All transaction records are immutably recorded on the XeroCloud distributed ledger. This constitutes your official earnings record. Operators may export this data for personal accounting purposes at any time via the Developer Core export API.</p>
+      </div>
+    </div>
+
+    <!-- ════════════ DEV VIEW ════════════ -->
+    <div class="view" id="view-dev" style="overflow-y:auto">
+      <div class="page-header reveal">
+        <div class="page-eyebrow">WORKSPACE / SYSTEM</div>
+        <div class="page-title">DEVELOPER CORE</div>
+      </div>
+      <div class="dev-grid">
+        <div class="dev-card reveal-l">
+          <div class="dev-card-header">
+            <div class="dev-card-dot green"></div>
+            <div class="dev-card-title">SYSTEM SPECIFICATIONS</div>
+          </div>
+          <div class="dev-card-body">
+            <div class="spec-row"><span class="spec-key">PLATFORM</span><span class="spec-val" id="dv-platform">--</span></div>
+            <div class="spec-row"><span class="spec-key">ARCHITECTURE</span><span class="spec-val" id="dv-arch">x64</span></div>
+            <div class="spec-row"><span class="spec-key">ELECTRON</span><span class="spec-val">v28.0.0</span></div>
+            <div class="spec-row"><span class="spec-key">NODE.JS</span><span class="spec-val">v20.11.0</span></div>
+            <div class="spec-row"><span class="spec-key">V8 ENGINE</span><span class="spec-val">v11.8.172.18</span></div>
+            <div class="spec-row"><span class="spec-key">CHROMIUM</span><span class="spec-val">120.0.6099.276</span></div>
+            <div class="spec-row"><span class="spec-key">OPENSSL</span><span class="spec-val">v3.0.13</span></div>
+          </div>
+        </div>
+        <div class="dev-card reveal-r">
+          <div class="dev-card-header">
+            <div class="dev-card-dot purple"></div>
+            <div class="dev-card-title">NODE RUNTIME STATUS</div>
+          </div>
+          <div class="dev-card-body">
+            <div class="spec-row"><span class="spec-key">NODE ID</span><span class="spec-val" id="dv-nodeid">--</span></div>
+            <div class="spec-row"><span class="spec-key">REGION</span><span class="spec-val" id="dv-region">SOUTH-ASIA-1</span></div>
+            <div class="spec-row"><span class="spec-key">CLUSTER</span><span class="spec-val">ALPHA-GRID-07</span></div>
+            <div class="spec-row"><span class="spec-key">PROTOCOL</span><span class="spec-val">XCM/2.4</span></div>
+            <div class="spec-row"><span class="spec-key">MESH PEERS</span><span class="spec-val" id="dv-peers">--</span></div>
+            <div class="spec-row"><span class="spec-key">TASKS COMPLETED</span><span class="spec-val" id="dv-tasks">--</span></div>
+            <div class="spec-row"><span class="spec-key">SESSION UPTIME</span><span class="spec-val" id="dv-uptime">--</span></div>
+          </div>
+        </div>
+        <div class="dev-card full reveal">
+          <div class="dev-card-header">
+            <div class="dev-card-dot cyan"></div>
+            <div class="dev-card-title">API REFERENCE · XEROCLOUD MESH v1</div>
+          </div>
+          <div class="dev-card-body">
+            <div class="api-endpoint">
+              <span class="api-method get">GET</span>
+              <span class="api-url">https://api.xerocloud.mesh/v1/node/status</span>
+              <div class="terminal-block" style="margin-top:8px">
+                <div class="cmd">curl -X GET https://api.xerocloud.mesh/v1/node/status -H "Authorization: Bearer XC_NODE_TOKEN"</div>
+                <div class="output json">{ "node_id": "<span id="api-nodeid">XC-MESH-0000</span>", "status": "ONLINE", "uptime": "<span id="api-uptime">00:00:00</span>", "tasks_active": 0, "mesh_integrity": "99.4%" }</div>
+              </div>
+            </div>
+            <div class="api-endpoint">
+              <span class="api-method get">GET</span>
+              <span class="api-url">https://api.xerocloud.mesh/v1/wallet/balance</span>
+              <div class="terminal-block" style="margin-top:8px">
+                <div class="cmd">curl -X GET https://api.xerocloud.mesh/v1/wallet/balance -H "Authorization: Bearer XC_NODE_TOKEN"</div>
+                <div class="output json">{ "balance_xc": <span id="api-balance">0</span>, "balance_usd": "<span id="api-usd">$0.00</span>", "rate": "1 XC = $2.00 USD", "last_payout": "2025-05-01T00:00:00Z" }</div>
+              </div>
+            </div>
+            <div class="api-endpoint">
+              <span class="api-method post">POST</span>
+              <span class="api-url">https://api.xerocloud.mesh/v1/node/accept-task</span>
+              <div class="terminal-block" style="margin-top:8px">
+                <div class="cmd">curl -X POST https://api.xerocloud.mesh/v1/node/accept-task -H "Content-Type: application/json" -d '{"task_id":"TASK-XXXXXXXX","node_id":"XC-MESH-XXXX"}'</div>
+                <div class="output json">{ "accepted": true, "task_id": "TASK-XXXXXXXX", "stream_token": "STR_...", "estimated_duration": "45 Minutes", "yield_xc": 12 }</div>
+              </div>
+            </div>
+            <div class="api-endpoint" style="margin-bottom:0">
+              <span class="api-method post">POST</span>
+              <span class="api-url">https://api.xerocloud.mesh/v1/wallet/payout</span>
+              <div class="terminal-block" style="margin-top:8px">
+                <div class="cmd">curl -X POST https://api.xerocloud.mesh/v1/wallet/payout -d '{"amount_xc": 100, "destination": "0x..."}'</div>
+                <div class="output json">{ "payout_id": "PO-XXXXXXXX", "amount_xc": 100, "amount_usd": "$200.00", "status": "PROCESSING", "eta": "24-48h" }</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ CONTACT VIEW ════════════ -->
+    <div class="view" id="view-contact" style="overflow-y:auto">
+      <div class="page-header reveal">
+        <div class="page-eyebrow">WORKSPACE / SUPPORT</div>
+        <div class="page-title">CONTACT PROTOCOL</div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info-block">
+          <div class="contact-info-card reveal-l">
+            <div class="cic-label">NETWORK SUPPORT GATEWAY</div>
+            <div class="cic-val">MESH OPERATOR DESK</div>
+            <div style="margin-top:10px;font-size:10px;color:var(--text-dim);line-height:1.7">Direct operator support for node issues, wallet disputes, and compute task anomalies. Average response: under 24 hours.</div>
+          </div>
+          <div class="contact-info-card reveal-l" style="transition-delay:0.1s">
+            <div class="cic-label">DEVELOPER DIRECT LINE</div>
+            <div class="cic-val cyan">t.me/naruto_enters</div>
+          </div>
+          <div class="contact-info-card reveal-l" style="transition-delay:0.15s">
+            <div class="cic-label">GITHUB REPOSITORY</div>
+            <div class="cic-val cyan" style="font-size:11px">github.com/vinayakraghav2012-devops</div>
+          </div>
+          <div class="contact-info-card reveal-l" style="transition-delay:0.2s">
+            <div class="cic-label">OPERATION CHANNELS</div>
+            <div class="contact-channels">
+              <button class="channel-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                TELEGRAM
+              </button>
+              <button class="channel-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                WHATSAPP
+              </button>
+              <button class="channel-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GITHUB
+              </button>
+              <button class="channel-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                EMAIL MESH
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bug-report-card reveal-r">
+          <div class="bug-report-header">
+            <div class="bug-report-title">BUG REPORT MATRIX</div>
+            <div class="bug-report-sub">SUBMIT TELEMETRY / MALFUNCTION LOG</div>
+          </div>
+          <div class="bug-report-body" id="bug-form-wrap">
+            <div class="bug-meta-row">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">ISSUE CATEGORY</label>
+                <select class="form-select">
+                  <option>Node Connectivity</option>
+                  <option>Task Execution Error</option>
+                  <option>Wallet / Payout Issue</option>
+                  <option>Performance Anomaly</option>
+                  <option>Mesh Sync Failure</option>
+                  <option>UI / Client Bug</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">SEVERITY LEVEL</label>
+                <select class="form-select">
+                  <option>LOW — Minor Issue</option>
+                  <option>MEDIUM — Functional Impact</option>
+                  <option>HIGH — Critical Failure</option>
+                  <option>CRITICAL — Total Outage</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top:14px">
+              <label class="form-label">TELEMETRY / MALFUNCTION LOG</label>
+              <textarea class="bug-textarea" placeholder="// Paste error output, stack trace, or describe the malfunction in detail...
+// Include: timestamp, task ID (if applicable), steps to reproduce
+// Example: [2025-06-28 14:32:11] MESH_SYNC_FAILURE — peer timeout after 30s
+//          NODE: XC-MESH-4429 | REGION: SOUTH-ASIA-1
+//          ERR: Connection reset by peer (ECONNRESET)"></textarea>
+            </div>
+            <button class="bug-submit" id="bug-submit" style="margin-top:14px">TRANSMIT MALFUNCTION REPORT →</button>
+          </div>
+          <div class="bug-success" id="bug-success">
+            <div class="bug-success-icon">✅</div>
+            <div class="bug-success-text">REPORT TRANSMITTED</div>
+            <div class="bug-success-sub">Telemetry logged on mesh.<br>Engineering team notified. Ref: <span id="bug-ref"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- COMPUTE MODAL -->
+<div class="modal-overlay" id="task-modal">
+  <div class="modal-card">
+    <div class="modal-inner">
+      <div class="modal-warning-row">
+        <div class="modal-warning-icon">⚠</div>
+        <div>
+          <div class="modal-warning-label">MESH COMPUTE AUTHORIZATION</div>
+          <div class="modal-warning-sub">READ BEFORE PROCEEDING — BINDING PROTOCOL</div>
+        </div>
+      </div>
+      <div class="modal-task-info" id="modal-task-info">
+        <div class="modal-task-info-item"><div class="k">TASK ID</div><div class="v" id="mi-id">--</div></div>
+        <div class="modal-task-info-item"><div class="k">DURATION</div><div class="v" id="mi-dur">--</div></div>
+        <div class="modal-task-info-item"><div class="k">YIELD</div><div class="v" id="mi-yield">-- XC</div></div>
+      </div>
+      <div class="modal-body-text">
+        <strong>WARNING: Initializing compute stream requires absolute process uptime.</strong> Minimizing, throttling, or disconnecting the XeroCloud background worker script mid-computation will break the distributed data array. <strong>Aborting active tasks forfeits all accumulated session rewards.</strong> By authorizing, you confirm your device will remain connected, powered, and unthrottled for the full duration of this compute stream. Violation of stream integrity triggers the network slashing protocol.
+      </div>
+      <div class="modal-actions">
+        <button class="modal-cancel" id="modal-cancel">CANCEL WORKLOAD</button>
+        <button class="modal-auth" id="modal-auth">AUTHORIZE MESH COMPUTE STREAM</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+  STREAM REQUEST MODAL — shown when mobile operator requests stream
+════════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="stream-request-modal" style="display:none;z-index:9999">
+  <div class="modal-card" style="max-width:460px;border-color:rgba(255,100,50,0.5);box-shadow:0 0 40px rgba(255,100,50,0.2)">
+    <div class="modal-inner">
+      <div class="modal-warning-row">
+        <div class="modal-warning-icon" style="color:#ff6432;font-size:28px">📡</div>
+        <div>
+          <div class="modal-warning-label" style="color:#ff6432">INCOMING STREAM REQUEST</div>
+          <div class="modal-warning-sub">MOBILE OPERATOR WANTS TO ACCESS YOUR PC</div>
+        </div>
+      </div>
+      <div class="modal-task-info" id="modal-task-info" style="margin:16px 0">
+        <div class="modal-task-info-item">
+          <div class="k">REQUESTER</div>
+          <div class="v" id="sr-client-email" style="color:#0FF6F6">--</div>
+        </div>
+        <div class="modal-task-info-item">
+          <div class="k">REQUEST TIME</div>
+          <div class="v" id="sr-request-time">--</div>
+        </div>
+        <div class="modal-task-info-item">
+          <div class="k">NODE</div>
+          <div class="v" id="sr-node-id" style="font-size:10px">--</div>
+        </div>
+      </div>
+      <div class="modal-body-text" style="border-color:rgba(255,100,50,0.3);background:rgba(255,100,50,0.06)">
+        <strong>⚠ DO NOT CLOSE THIS APPLICATION</strong> while the stream is active. The operator will see your full desktop. You can end the session at any time using the Emergency Kill button. Auto-reject in <span id="sr-countdown">60</span>s if no action is taken.
+      </div>
+      <div class="modal-actions" style="gap:12px;margin-top:16px">
+        <button class="modal-cancel" id="sr-reject-btn" style="flex:1">✕ REJECT</button>
+        <button class="modal-auth" id="sr-accept-btn" style="flex:2;background:linear-gradient(135deg,rgba(15,246,246,0.3),rgba(140,47,255,0.2));border-color:#0FF6F6">✓ ACCEPT STREAM</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+  STREAMING ACTIVE OVERLAY — persistent banner while stream is live
+════════════════════════════════════════════════════════════════ -->
+<div id="streaming-active-overlay" style="
+  display:none;position:fixed;top:0;left:0;right:0;z-index:8000;
+  background:linear-gradient(90deg,rgba(255,100,50,0.15),rgba(140,47,255,0.15));
+  border-bottom:1px solid rgba(255,100,50,0.6);
+  padding:10px 20px;display:flex;align-items:center;justify-content:space-between;
+  backdrop-filter:blur(10px);font-family:var(--font-mono);
+">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="width:8px;height:8px;border-radius:50%;background:#ff6432;box-shadow:0 0 12px #ff6432;animation:pulse-red 1s infinite"></div>
+    <div style="font-size:10px;letter-spacing:2px;color:#ff6432;font-weight:bold">STREAMING LIVE</div>
+    <div style="font-size:10px;letter-spacing:1px;color:var(--text-dim)" id="stream-status-text">INITIALIZING...</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div style="font-size:9px;letter-spacing:2px;color:var(--text-dim)">⚠ DO NOT CLOSE — APP RUNNING IN BACKGROUND</div>
+    <button id="stream-emergency-kill" style="
+      padding:6px 16px;background:rgba(255,51,85,0.2);border:1px solid #ff3355;
+      color:#ff3355;font-family:var(--font-mono);font-size:9px;letter-spacing:2px;
+      cursor:pointer;transition:all 0.2s;
+    " onmouseover="this.style.background='rgba(255,51,85,0.4)'" onmouseout="this.style.background='rgba(255,51,85,0.2)'">
+      ■ EMERGENCY KILL
+    </button>
+  </div>
+</div>
+
+<style>
+#stream-request-modal.open { display:flex !important; }
+#streaming-active-overlay.visible { display:flex !important; }
+@keyframes pulse-red { 0%,100%{opacity:1;box-shadow:0 0 12px #ff6432} 50%{opacity:0.5;box-shadow:0 0 4px #ff6432} }
+</style>
+
+<script src="renderer.js"></script>
+</body>
+</html>

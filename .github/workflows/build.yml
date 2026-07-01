@@ -1,0 +1,27 @@
+name: Build Electron App
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build App
+        run: npm run build
+
+      - name: Upload Finished Exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: XeroCloud-Windows-Build
+          path: dist/*.exe
