@@ -38,7 +38,7 @@
     "productName": "XeroCloud",
     "win": {
       "target": "nsis",
-      "icon": "./XEROCLOUDICON.ico"
+      "icon": "./XEROICON.ico"
     },
     "nsis": {
       "oneClick": false,
