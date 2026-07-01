@@ -1,7 +1,8 @@
 
 const { ipcRenderer } = require('electron');
+const CONFIG = require('./config.js');
 
-const API = 'http://localhost:5000';
+const API = CONFIG.VIRUS_URL ;
 const REQUEST_POLL_MS = 3000;
 const SESSION_POLL_MS = 1500;
 
