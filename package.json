@@ -2,17 +2,17 @@
   "name": "xerocloud-mesh",
   "productName": "XeroCloud",
   "version": "1.0.0",
-  "description": "",
+  "description": "Secure desktop client for XeroCloud Mesh network",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build": "electron-builder"
+    "build": "electron-builder --win"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vinayak Rajput",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -38,11 +38,14 @@
     "productName": "XeroCloud",
     "win": {
       "target": "nsis",
-      "icon": "./XERO-256x256.ico"
+      "icon": "./XEROCLOUDICON.ico"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "output": "dist"
     }
   }
 }
